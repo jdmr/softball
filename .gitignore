@@ -1,0 +1,16 @@
+.DS_Store
+target
+nb-configuration.xml
+nbactions.xml
+nb_jr_remoting.cfg
+softball.log**
+softball-test.log**
+.idea
+*.iml
+.classpath
+.project
+.settings
+.sass-cache
+Thumbs.db
+rebel.xml
+application.properties
