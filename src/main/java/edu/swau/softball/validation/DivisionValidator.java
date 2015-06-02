@@ -21,28 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package edu.swau.softball.service;
+package edu.swau.softball.validation;
 
-import edu.swau.softball.model.Season;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import edu.swau.softball.model.Division;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface SeasonService {
+@Component
+public class DivisionValidator implements Validator {
 
-    public Page<Season> search(String filter, PageRequest pageRequest);
+    @Override
+    public boolean supports(Class<?> type) {
+        return Division.class.isAssignableFrom(type);
+    }
 
-    public Page<Season> list(PageRequest pageRequest);
+    @Override
+    public void validate(Object o, Errors errors) {
+        Division division = (Division) o;
+        
+        if (StringUtils.isBlank(division.getName())) {
+            errors.rejectValue("name", "NotBlank.division.name");
+        }
+    }
 
-    public void create(Season season);
-
-    public Season get(Integer seasonId);
-
-    public void delete(Integer seasonId);
-
-    public Iterable<Season> all();
-    
 }

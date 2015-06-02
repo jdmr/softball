@@ -21,28 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package edu.swau.softball.service;
+package edu.swau.softball.dao;
 
-import edu.swau.softball.model.Season;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import edu.swau.softball.model.Division;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface SeasonService {
-
-    public Page<Season> search(String filter, PageRequest pageRequest);
-
-    public Page<Season> list(PageRequest pageRequest);
-
-    public void create(Season season);
-
-    public Season get(Integer seasonId);
-
-    public void delete(Integer seasonId);
-
-    public Iterable<Season> all();
+public interface DivisionRepository extends PagingAndSortingRepository<Division, Integer> {
     
 }

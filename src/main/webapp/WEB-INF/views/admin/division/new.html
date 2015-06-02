@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="/layouts/main :: head('New Season')">
+    <head th:replace="/layouts/main :: head('New Division')">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Home | Southwestern Adventist University</title>
@@ -60,25 +60,33 @@ THE SOFTWARE.
 
         <div class="container">
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('season')">
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('division')">
                 </div>
                 <div class="col-md-9">
-                    <h1>New Season</h1>
+                    <h1>New Division</h1>
                     <hr/>
                     
-                    <form action="#" th:action="@{'/admin/season/new'}" method="POST" th:object="${season}">
+                    <form action="#" th:action="@{'/admin/division/new'}" method="POST" th:object="${division}">
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{version}" />
                         <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                             <h4>Error</h4>
                             <ul>
                                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Incorrect input</li>
                             </ul>
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('id')}?'has-error'">
-                            <label for="id">Season</label>
-                            <input type="text" th:field="*{id}" id="id" class="form-control" autofocus="autofocus" />
+                        <div class="form-group" th:classappend="${#fields.hasErrors('name')}?'has-error'">
+                            <label for="name">Division</label>
+                            <input type="text" th:field="*{name}" id="name" class="form-control" autofocus="autofocus" />
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('season')}?'has-error'">
+                            <label for="season">Division</label>
+                            <select th:field="*{season.id}" id="season" class="form-control" >
+                                <option th:each="season : ${seasons}" th:value="${season.id}" th:label="${season.id}">2015</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Create</button>
-                        <a href="#" th:href="@{'/admin/season'}" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                        <a href="#" th:href="@{'/admin/division'}" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
                     </form>
 
                 </div>

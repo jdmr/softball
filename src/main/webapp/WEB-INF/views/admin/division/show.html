@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="/layouts/main :: head('New Season')">
+    <head th:replace="/layouts/main :: head(${division.name + ' Division'})">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Home | Southwestern Adventist University</title>
@@ -60,27 +60,18 @@ THE SOFTWARE.
 
         <div class="container">
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('season')">
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('division')">
                 </div>
                 <div class="col-md-9">
-                    <h1>New Season</h1>
+                    <h1 th:text="${division.name + ' Division'}"></h1>
                     <hr/>
                     
-                    <form action="#" th:action="@{'/admin/season/new'}" method="POST" th:object="${season}">
-                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                            <h4>Error</h4>
-                            <ul>
-                                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Incorrect input</li>
-                            </ul>
-                        </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('id')}?'has-error'">
-                            <label for="id">Season</label>
-                            <input type="text" th:field="*{id}" id="id" class="form-control" autofocus="autofocus" />
-                        </div>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Create</button>
-                        <a href="#" th:href="@{'/admin/season'}" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
-                    </form>
-
+                    <h5>Season</h5>
+                    <h3 th:text="${division.season.id}">2015</h3>
+                    
+                    <a href="#" th:href="@{/admin/division/list}" class="btn btn-primary"><i class="fa fa-list"></i> Back to Divisions</a>
+                    <a href="#" th:href="@{'/admin/division/edit/' + ${division.id}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                    <a href="#" th:href="@{'/admin/division/delete/'+${division.id}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this division?');"><i class="fa fa-trash"></i> Delete <th:block th:text="${division.name}">2015</th:block> Division</a>
                 </div>
             </div>
         </div>

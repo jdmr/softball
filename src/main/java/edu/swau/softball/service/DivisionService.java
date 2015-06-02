@@ -23,7 +23,7 @@
  */
 package edu.swau.softball.service;
 
-import edu.swau.softball.model.Season;
+import edu.swau.softball.model.Division;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -31,18 +31,16 @@ import org.springframework.data.domain.PageRequest;
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface SeasonService {
+public interface DivisionService {
 
-    public Page<Season> search(String filter, PageRequest pageRequest);
+    public Page<Division> search(String filter, PageRequest pageRequest);
 
-    public Page<Season> list(PageRequest pageRequest);
+    public Page<Division> list(PageRequest pageRequest);
 
-    public void create(Season season);
+    public Division create(Division division);
 
-    public Season get(Integer seasonId);
+    public Division get(Integer divisionId);
 
-    public void delete(Integer seasonId);
-
-    public Iterable<Season> all();
+    public String delete(Integer divisionId);
     
 }

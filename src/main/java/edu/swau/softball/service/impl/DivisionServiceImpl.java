@@ -23,12 +23,10 @@
  */
 package edu.swau.softball.service.impl;
 
-import edu.swau.softball.dao.SeasonRepository;
-import edu.swau.softball.model.Season;
+import edu.swau.softball.dao.DivisionRepository;
+import edu.swau.softball.model.Division;
 import edu.swau.softball.service.BaseService;
-import edu.swau.softball.service.SeasonService;
-import java.util.ArrayList;
-import java.util.List;
+import edu.swau.softball.service.DivisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,41 +39,36 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class SeasonServiceImpl extends BaseService implements SeasonService {
-
-    @Autowired
-    private SeasonRepository repository;
+public class DivisionServiceImpl extends BaseService implements DivisionService {
     
+    @Autowired
+    private DivisionRepository repository;
+
     @Override
-    @Transactional(readOnly = true)
-    public Page<Season> search(String filter, PageRequest pageRequest) {
+    public Page<Division> search(String filter, PageRequest pageRequest) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Page<Season> list(PageRequest pageRequest) {
+    public Page<Division> list(PageRequest pageRequest) {
         return repository.findAll(pageRequest);
     }
 
     @Override
-    public void create(Season season) {
-        repository.save(season);
+    public Division create(Division division) {
+        return repository.save(division);
     }
 
     @Override
-    public Season get(Integer seasonId) {
-        return repository.findOne(seasonId);
+    public Division get(Integer divisionId) {
+        return repository.findOne(divisionId);
     }
 
     @Override
-    public void delete(Integer seasonId) {
-        repository.delete(seasonId);
-    }
-
-    @Override
-    public Iterable<Season> all() {
-        return repository.findAll();
+    public String delete(Integer divisionId) {
+        Division division = repository.findOne(divisionId);
+        repository.delete(division);
+        return division.getName();
     }
     
 }
