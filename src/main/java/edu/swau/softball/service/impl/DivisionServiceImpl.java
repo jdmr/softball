@@ -45,11 +45,13 @@ public class DivisionServiceImpl extends BaseService implements DivisionService 
     private DivisionRepository repository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Division> search(String filter, PageRequest pageRequest) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Division> list(PageRequest pageRequest) {
         return repository.findAll(pageRequest);
     }
@@ -60,6 +62,7 @@ public class DivisionServiceImpl extends BaseService implements DivisionService 
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Division get(Integer divisionId) {
         return repository.findOne(divisionId);
     }
@@ -69,6 +72,12 @@ public class DivisionServiceImpl extends BaseService implements DivisionService 
         Division division = repository.findOne(divisionId);
         repository.delete(division);
         return division.getName();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Division> all() {
+        return repository.findAll();
     }
     
 }

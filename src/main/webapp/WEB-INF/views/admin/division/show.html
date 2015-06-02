@@ -66,8 +66,8 @@ THE SOFTWARE.
                     <h1 th:text="${division.name + ' Division'}"></h1>
                     <hr/>
                     
-                    <h5>Season</h5>
                     <h3 th:text="${division.season.id}">2015</h3>
+                    <h5>Season</h5>
                     
                     <a href="#" th:href="@{/admin/division/list}" class="btn btn-primary"><i class="fa fa-list"></i> Back to Divisions</a>
                     <a href="#" th:href="@{'/admin/division/edit/' + ${division.id}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>

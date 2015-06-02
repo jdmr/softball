@@ -21,28 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package edu.swau.softball.service;
+package edu.swau.softball.validation;
 
-import edu.swau.softball.model.Division;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import edu.swau.softball.model.Team;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface DivisionService {
+@Component
+public class TeamValidator implements Validator {
 
-    public Page<Division> search(String filter, PageRequest pageRequest);
+    @Override
+    public boolean supports(Class<?> type) {
+        return Team.class.isAssignableFrom(type);
+    }
 
-    public Page<Division> list(PageRequest pageRequest);
+    @Override
+    public void validate(Object o, Errors errors) {
+        Team team = (Team) o;
+        
+        if (StringUtils.isBlank(team.getName())) {
+            errors.rejectValue("name", "NotBlank.team.name");
+        }
+        if (team.getDivision() == null) {
+            errors.rejectValue("division", "NotNull.team.division");
+        }
+    }
 
-    public Division create(Division division);
-
-    public Division get(Integer divisionId);
-
-    public String delete(Integer divisionId);
-    
-    public Iterable<Division> all();
-    
 }

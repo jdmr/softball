@@ -23,10 +23,11 @@
  */
 package edu.swau.softball.service.impl;
 
-import edu.swau.softball.dao.SeasonRepository;
-import edu.swau.softball.model.Season;
+import edu.swau.softball.dao.DivisionRepository;
+import edu.swau.softball.dao.TeamRepository;
+import edu.swau.softball.model.Team;
 import edu.swau.softball.service.BaseService;
-import edu.swau.softball.service.SeasonService;
+import edu.swau.softball.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,43 +40,42 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class SeasonServiceImpl extends BaseService implements SeasonService {
-
-    @Autowired
-    private SeasonRepository repository;
+public class TeamServiceImpl extends BaseService implements TeamService {
     
+    @Autowired
+    private TeamRepository repository;
+    @Autowired
+    private DivisionRepository divisionRepository;
+
     @Override
     @Transactional(readOnly = true)
-    public Page<Season> search(String filter, PageRequest pageRequest) {
+    public Page<Team> search(String filter, PageRequest pageRequest) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Season> list(PageRequest pageRequest) {
+    public Page<Team> list(PageRequest pageRequest) {
         return repository.findAll(pageRequest);
     }
 
     @Override
-    public void create(Season season) {
-        repository.save(season);
+    public Team create(Team team) {
+        team.setDivision(divisionRepository.findOne(team.getDivision().getId()));
+        return repository.save(team);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Season get(Integer seasonId) {
-        return repository.findOne(seasonId);
+    public Team get(Integer teamId) {
+        return repository.findOne(teamId);
     }
 
     @Override
-    public void delete(Integer seasonId) {
-        repository.delete(seasonId);
+    public String delete(Integer teamId) {
+        Team team = repository.findOne(teamId);
+        repository.delete(team);
+        return team.getName();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Iterable<Season> all() {
-        return repository.findAll();
-    }
-    
 }

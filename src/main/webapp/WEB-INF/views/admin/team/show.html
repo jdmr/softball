@@ -24,7 +24,7 @@ THE SOFTWARE.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="/layouts/main :: head('Divisions')">
+    <head th:replace="/layouts/main :: head(${team.name + ' Team'})">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>Home | Southwestern Adventist University</title>
@@ -60,60 +60,21 @@ THE SOFTWARE.
 
         <div class="container">
             <div class="row">
-                <div class="col-md-3" th:replace="/layouts/main :: sidebar('division')">
+                <div class="col-md-3" th:replace="/layouts/main :: sidebar('team')">
                 </div>
                 <div class="col-md-9">
-                    <h1>Divisions</h1>
+                    <h1 th:text="${team.name + ' Team'}"></h1>
                     <hr/>
                     
-                    <div class="alert" th:classappend="${not #strings.isEmpty(messageStyle)} ? ${messageStyle} : 'alert-success'" th:unless="${#strings.isEmpty(message)}" th:utext="${message}">
-                        Message
-                    </div>
+                    <h3 th:text="${team.division.name}">2015</h3>
+                    <h5>Division</h5>
                     
-                    <a href="#" th:href="@{/admin/division/new}" class="btn btn-primary"><i class="fa fa-plus"></i> New Division</a>
+                    <h3 th:text="${team.division.season.id}">2015</h3>
+                    <h5>Season</h5>
                     
-                    <div class="table-responsive" th:unless="${#lists.isEmpty(divisions.content)}">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Division</th>
-                                    <th>Season</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="division : ${divisions.content}">
-                                    <td><a href="#" th:href="@{'/admin/division/show/'+${division.id}}" th:text="${division.name}">Division</a></td>
-                                    <td th:text="${division.season.id}">2015</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <nav th:unless="${#lists.isEmpty(divisions.content)}">
-                        <ul class="pagination">
-                            <li th:if="${currentPage == 0}" class="disabled">
-                                <span aria-hidden="true">&laquo;</span>
-                            </li>
-                            <li th:unless="${currentPage == 0}">
-                                <a href="#" aria-label="Previous" th:href="@{/admin/division/list(page=${currentPage - 1}, sort=${sort}, direction=${direction}, filter=${filter})}">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <th:block th:each="page : ${pages}">
-                                <li th:if="${page >= 0}" th:class="${page == currentPage}?'active'"><a href="#" th:href="@{/admin/division/list(page=${page}, sort=${sort}, direction=${direction}, filtro=${filter})}" th:text="${page + 1}" >1</a></li>
-                                <li th:unless="${page >= 0}" class="disabled"><a href="#">...</a></li>
-                            </th:block>
-                            <li th:if="${currentPage == totalPages}" class="disabled">
-                                <span aria-hidden="true">&raquo;</span>
-                            </li>
-                            <li th:unless="${currentPage == totalPages}">
-                                <a href="#" aria-label="Next" th:href="@{/admin/division/list(page=${currentPage + 1}, sort=${sort}, direction=${direction}, filter=${filter})}">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-
+                    <a href="#" th:href="@{/admin/team/list}" class="btn btn-primary"><i class="fa fa-list"></i> Back to Teams</a>
+                    <a href="#" th:href="@{'/admin/team/edit/' + ${team.id}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                    <a href="#" th:href="@{'/admin/team/delete/'+${team.id}}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this team?');"><i class="fa fa-trash"></i> Delete <th:block th:text="${team.name}">2015</th:block> Team</a>
                 </div>
             </div>
         </div>
