@@ -38,7 +38,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
@@ -104,6 +106,14 @@ public class User implements Serializable, UserDetails {
         @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "authority", nullable = false)})
     private List<Role> roles = new ArrayList<>();
+    @ManyToOne
+    private Team team;
+    @Transient
+    private Boolean admin = Boolean.FALSE;
+    @Transient
+    private Boolean coach = Boolean.FALSE;
+    @Transient
+    private Boolean user = Boolean.TRUE;
 
     public User() {
     }
@@ -323,4 +333,67 @@ public class User implements Serializable, UserDetails {
         return enabled;
     }
 
+    /**
+     * @return the team
+     */
+    public Team getTeam() {
+        return team;
+    }
+
+    /**
+     * @param team the team to set
+     */
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public String getFullName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(firstName);
+        sb.append(" ");
+        sb.append(lastName);
+        return sb.toString();
+    }
+
+    /**
+     * @return the admin
+     */
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+    /**
+     * @return the coach
+     */
+    public Boolean getCoach() {
+        return coach;
+    }
+
+    /**
+     * @param coach the coach to set
+     */
+    public void setCoach(Boolean coach) {
+        this.coach = coach;
+    }
+
+    /**
+     * @return the user
+     */
+    public Boolean getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(Boolean user) {
+        this.user = user;
+    }
 }

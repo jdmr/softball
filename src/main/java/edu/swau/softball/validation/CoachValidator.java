@@ -21,28 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package edu.swau.softball.service;
+package edu.swau.softball.validation;
 
-import edu.swau.softball.model.Team;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import edu.swau.softball.model.User;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface TeamService {
+@Component
+public class CoachValidator implements Validator {
 
-    public Page<Team> search(String filter, PageRequest pageRequest);
+    @Override
+    public boolean supports(Class<?> type) {
+        return User.class.isAssignableFrom(type);
+    }
 
-    public Page<Team> list(PageRequest pageRequest);
+    @Override
+    public void validate(Object o, Errors errors) {
+        User user = (User) o;
 
-    public Team create(Team team);
+        if (StringUtils.isBlank(user.getUsername())) {
+            errors.rejectValue("username", "NotBlank.user.username");
+        }
+        if (StringUtils.isBlank(user.getFirstName())) {
+            errors.rejectValue("firstName", "NotBlank.user.firstName");
+        }
+        if (StringUtils.isBlank(user.getLastName())) {
+            errors.rejectValue("lastName", "NotBlank.user.lastName");
+        }
 
-    public Team get(Integer teamId);
+        if (!user.getAdmin()) {
+            user.setCoach(Boolean.TRUE);
+            if (user.getTeam() == null) {
+                errors.rejectValue("team", "NotNull.user.team");
+            }
+        }
+    }
 
-    public String delete(Integer teamId);
-    
-    public Iterable<Team> all();
-    
 }

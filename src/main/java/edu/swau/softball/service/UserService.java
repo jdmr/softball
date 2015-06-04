@@ -23,7 +23,7 @@
  */
 package edu.swau.softball.service;
 
-import edu.swau.softball.model.Team;
+import edu.swau.softball.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -31,18 +31,16 @@ import org.springframework.data.domain.PageRequest;
  *
  * @author J. David Mendoza <jdmendoza@swau.edu>
  */
-public interface TeamService {
+public interface UserService {
 
-    public Page<Team> search(String filter, PageRequest pageRequest);
+    public Page<User> search(String filter, PageRequest pageRequest);
 
-    public Page<Team> list(PageRequest pageRequest);
+    public Page<User> list(PageRequest pageRequest);
 
-    public Team create(Team team);
+    public User create(User user);
 
-    public Team get(Integer teamId);
+    public User get(Long userId);
 
-    public String delete(Integer teamId);
-    
-    public Iterable<Team> all();
+    public String delete(Long userId);
     
 }

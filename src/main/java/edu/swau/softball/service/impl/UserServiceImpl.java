@@ -23,11 +23,11 @@
  */
 package edu.swau.softball.service.impl;
 
-import edu.swau.softball.dao.DivisionRepository;
 import edu.swau.softball.dao.TeamRepository;
-import edu.swau.softball.model.Team;
+import edu.swau.softball.dao.UserRepository;
+import edu.swau.softball.model.User;
 import edu.swau.softball.service.BaseService;
-import edu.swau.softball.service.TeamService;
+import edu.swau.softball.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,47 +40,42 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class TeamServiceImpl extends BaseService implements TeamService {
+public class UserServiceImpl extends BaseService implements UserService {
     
     @Autowired
-    private TeamRepository repository;
+    private UserRepository repository;
     @Autowired
-    private DivisionRepository divisionRepository;
+    private TeamRepository teamRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Team> search(String filter, PageRequest pageRequest) {
+    public Page<User> search(String filter, PageRequest pageRequest) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Team> list(PageRequest pageRequest) {
+    public Page<User> list(PageRequest pageRequest) {
         return repository.findAll(pageRequest);
     }
 
     @Override
-    public Team create(Team team) {
-        team.setDivision(divisionRepository.findOne(team.getDivision().getId()));
-        return repository.save(team);
+    public User create(User user) {
+        user.setTeam(teamRepository.findOne(user.getTeam().getId()));
+        return repository.save(user);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Team get(Integer teamId) {
-        return repository.findOne(teamId);
+    public User get(Long userId) {
+        return repository.findOne(userId);
     }
 
     @Override
-    public String delete(Integer teamId) {
-        Team team = repository.findOne(teamId);
-        repository.delete(team);
-        return team.getName();
-    }
-
-    @Override
-    public Iterable<Team> all() {
-        return repository.findAll();
+    public String delete(Long userId) {
+        User user = repository.findOne(userId);
+        repository.delete(user);
+        return user.getFullName();
     }
 
 }
